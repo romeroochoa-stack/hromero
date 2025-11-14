@@ -34,7 +34,8 @@ jobs:
           snyk code test \
             --sarif-file-output=snyk-code.sarif \
             --severity-threshold=low || true
-
+          snyk monitor –org=hromero || true    
+          
       # Resumen legible en el Summary del job
       - name: Build SAST summary
         run: |
