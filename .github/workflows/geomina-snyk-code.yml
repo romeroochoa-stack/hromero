@@ -40,14 +40,13 @@ jobs:
       - name: Build SAST summary
         run: |
           set -eux
-          echo "### Snyk Code (SAST) summary" > snyk-code-summary.md
-          echo "" >> snyk-code-summary.md
-          # Totales por nivel desde SARIF
+          echo '### Snyk Code (SAST) summary'
+          echo ''
           jq -r '
-            def sev(x): (.runs[0].results // [] | map(.level) | map(select(.==x)) | length);
-            "Total findings: \((.runs[0].results // [] | length))",
-            "error: \(sev(\"error\")) | warning: \(sev(\"warning\")) | note: \(sev(\"note\"))"
-          ' snyk-code.sarif >> snyk-code-summary.md || true
+          def sev(x): (.runs[0].results // [] | map(.level) | map(select(.==x)) | length);
+          "Total findings: \((.runs[0].results // [] | length))",
+          ("error: " + (sev("error") | tostring) + " | warning: " + (sev("warning") | tostring) + " | note: " + (sev("note") | tostring))
+          ' snyk-code.sarif || true
           echo "" >> snyk-code-summary.md
           echo "#### Top 20 findings" >> snyk-code-summary.md
           echo "| Level | Rule | Location | Message |" >> snyk-code-summary.md
