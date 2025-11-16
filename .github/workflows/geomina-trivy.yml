@@ -1,5 +1,4 @@
 name: Build & Trivy Scan (local only)
-
 on:
   push:
     branches: ["main"]
