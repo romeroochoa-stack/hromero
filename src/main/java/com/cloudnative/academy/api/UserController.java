@@ -21,11 +21,11 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         // Ejemplo de código inseguro con inyección SQL
-        String username = "testUser"; // Supón que esto proviene de un parámetro o input del usuario
+        String query = "SELECT * FROM users WHERE username = ?";
         String query = "SELECT * FROM users WHERE username = '" + username + "'"; // Vulnerable a inyección SQL
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user", "password");
+            Connection conn = DriverManager.getConnection( System.getenv("DB_URL"), System.getenv("DB_USER"), System.getenv("DB_PASSWORD")
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -46,3 +46,4 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 }
+
