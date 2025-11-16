@@ -25,7 +25,7 @@ public class UserController {
         String query = "SELECT * FROM users WHERE username = '" + username + "'"; // Vulnerable a inyección SQL
 
         try {
-            Connection conn = DriverManager.getConnection( System.getenv("DB_URL"), System.getenv("DB_USER"), System.getenv("DB_PASSWORD")
+            Connection conn = DriverManager.getConnection(System.getenv("DB_URL"), System.getenv("DB_USER"), System.getenv("DB_PASSWORD"));
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -46,4 +46,5 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 }
+
 
